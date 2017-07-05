@@ -84,7 +84,7 @@ endif
 set ruler
 
 " Height of the command bar
-set cmdheight=2
+set cmdheight=1
 
 " A buffer becomes hidden when it is abandoned
 set hid
@@ -536,6 +536,8 @@ let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\'
 " git-gutter {{{
 let g:gitgutter_enabled=0
 nnoremap <silent> <leader>gg :GitGutterToggle<cr>
+nmap ]h <Plug>GitGutterNextHunk
+nmap [h <Plug>GitGutterPrevHunk
 
 "}}}
 
@@ -573,6 +575,9 @@ let g:deoplete#max_list = 50
 
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+
+" Enable auto selection
+set completeopt+=noinsert
 " }}}
 
 "}}}
