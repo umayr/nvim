@@ -1,4 +1,3 @@
-
 " Initialise {{{
 call plug#begin('~/local/share/nvim/plugged')
 
@@ -495,7 +494,23 @@ let g:go_highlight_methods = 1
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_build_constraints = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_structs = 1
 
+let g:go_auto_sameids = 1
+let g:go_fmt_command = "goimports"
+let g:go_auto_type_info = 1
+
+au FileType go set noexpandtab
+au FileType go set shiftwidth=4
+au FileType go set softtabstop=4
+au FileType go set tabstop=4
+
+au FileType go nmap <leader>gr :GoRun<cr>
+au FileType go nmap <leader>gt :GoDeclsDir<cr>
+
+au FileType go nmap <F12> <Plug>(go-def)
 "}}}
 
 " airline {{{
