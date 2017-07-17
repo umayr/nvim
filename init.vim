@@ -7,9 +7,12 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'fatih/vim-go'
 Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/local/share/nvim/plugged/gocode/vim/symlink.sh' }
+Plug 'rust-lang/rust.vim'
+Plug 'sebastianmarkow/deoplete-rust'
 Plug 'shougo/vimfiler.vim'
 Plug 'shougo/unite.vim'
 Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'timonv/vim-cargo'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -513,6 +516,13 @@ au FileType go nmap <leader>gt :GoDeclsDir<cr>
 au FileType go nmap <F12> <Plug>(go-def)
 "}}}
 
+" vim-cargo {{{
+au FileType rust nmap <leader>cr :CargoRun<cr>
+au FileType rust nmap <leader>cb :CargoBuild<cr>
+au FileType rust nmap <leader>cc :CargoClean<cr>
+au FileType rust nmap <leader>cu :CargoUpdate<cr>
+" }}}
+
 " airline {{{
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#ale#enabled = 1
@@ -590,6 +600,13 @@ let g:deoplete#max_list = 50
 
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+
+let g:deoplete#sources#rust#racer_binary = $HOME.'/.cargo/bin/racer'
+let g:deoplete#sources#rust#rust_source_path = $RUST_SRC_PATH
+let g:deoplete#sources#rust#disable_keymap=1
+
+au FileType rust nmap <leader>gd <Plug>DeopleteRustGoToDefinitionDefault
+au FileType rust nmap <leader>d <Plug>DeopleteRustShowDocumentation
 
 " Enable auto selection
 set completeopt+=noinsert
