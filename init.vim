@@ -5,6 +5,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
 " TODO: replace ctrlp with unite
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'ervandew/supertab'
 Plug 'fatih/vim-go'
 Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/local/share/nvim/plugged/gocode/vim/symlink.sh' }
 Plug 'rust-lang/rust.vim'
@@ -607,6 +608,10 @@ let g:deoplete#sources#rust#disable_keymap=1
 
 au FileType rust nmap <leader>gd <Plug>DeopleteRustGoToDefinitionDefault
 au FileType rust nmap <leader>d <Plug>DeopleteRustShowDocumentation
+
+" supertab mappings
+let g:SuperTabMappingForward = '<s-tab>'
+let g:SuperTabMappingBackward = '<tab>'
 
 " Enable auto selection
 set completeopt+=noinsert
