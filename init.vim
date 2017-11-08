@@ -3,15 +3,18 @@ call plug#begin('~/local/share/nvim/plugged')
 
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
-" TODO: replace ctrlp with unite
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'dracula/vim'
 Plug 'ervandew/supertab'
 Plug 'fatih/vim-go'
+Plug 'jiangmiao/auto-pairs'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/local/share/nvim/plugged/gocode/vim/symlink.sh' }
 Plug 'rust-lang/rust.vim'
 Plug 'sebastianmarkow/deoplete-rust'
 Plug 'shougo/vimfiler.vim'
 Plug 'shougo/unite.vim'
+Plug 'shougo/denite.nvim'
 Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'timonv/vim-cargo'
 Plug 'tpope/vim-commentary'
@@ -23,7 +26,9 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
 Plug 'yegappan/mru'
 Plug 'zchee/deoplete-go', { 'do': 'make'}
-
+" Enable the two lines below to enable python autocomplete with deoplete
+" Plug 'davidhalter/jedi-vim'
+" Plug 'zchee/deoplete-jedi'
 call plug#end()
 "}}}
 
@@ -210,6 +215,9 @@ set showcmd
 " Start scrolling three lines before the horizontal window border
 set scrolloff=3
 
+" Remove the vertical split character
+set fillchars=vert:\ 
+
 "}}}
 
 " Colors and Fonts {{{
@@ -218,11 +226,21 @@ set scrolloff=3
 syntax enable 
 
 try
-    colorscheme solarized 
+    "colorscheme solarized 
+    " TODO: remove solarized
+    colorscheme dracula
+    " TODO: make the lines below conditional
+    highlight FoldColumn guibg=NONE guifg=NONE ctermbg=NONE ctermfg=NONE cterm=bold
+    " Colors for Selection Menu
+    highlight Pmenu ctermfg=NONE ctermbg=NONE
+    highlight PmenuSel ctermfg=232 ctermbg=84 cterm=NONE
+    highlight PmenuSBar ctermbg=NONE
+    highlight PmenuThumb ctermbg=84
+
 catch
 endtry
 
-set background=dark
+"set background=dark
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -513,8 +531,16 @@ au FileType go set tabstop=4
 
 au FileType go nmap <leader>gr :GoRun<cr>
 au FileType go nmap <leader>gt :GoDeclsDir<cr>
+au FileType go nmap <leader>gd :GoDoc<cr>
+au FileType go nmap <leader>gt :GoTest<cr>
+au FileType go nmap <leader>rr :GoRename<cr>
+au FileType go nmap <leader>gk :GoKeyify<cr>
+
+au FileType go nmap g] :GoDef<cr>
+au FileType go nmap g[ :GoDefPop<cr>
 
 au FileType go nmap <F12> <Plug>(go-def)
+au FileType go nmap <F11> <Plug>(go-def-pop)
 "}}}
 
 " vim-cargo {{{
@@ -524,11 +550,16 @@ au FileType rust nmap <leader>cc :CargoClean<cr>
 au FileType rust nmap <leader>cu :CargoUpdate<cr>
 " }}}
 
+" rust.vim {{{
+let g:rustfmt_autosave = 1
+au FileType rust nmap <leader>rf :RustFmt<cr>
+" }}}
+
 " airline {{{
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#ale#enabled = 1
-let g:airline_theme = 'solarized'
-let g:airline_solarized_bg = 'dark'
+let g:airline_theme = 'dracula'
+" let g:airline_solarized_bg = 'dark'
 let g:airline_powerline_fonts = 1
 
 "}}}
@@ -536,17 +567,6 @@ let g:airline_powerline_fonts = 1
 " MRU {{{
 let MRU_Max_Entries = 400
 map <leader>m :MRU<CR>
-
-"}}}
-
-" ctrl-p {{{
-let g:ctrlp_working_path_mode = 0
-
-map <leader>p :CtrlP<cr>
-map <c-p> :CtrlPBuffer<cr>
-
-let g:ctrlp_max_height = 20
-let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\'
 
 "}}}
 
@@ -565,11 +585,39 @@ nnoremap <silent> <leader>gg :GitGutterToggle<cr>
 nmap ]h <Plug>GitGutterNextHunk
 nmap [h <Plug>GitGutterPrevHunk
 
+let g:gitgutter_sign_added = '●'
+let g:gitgutter_sign_modified = '●'
+let g:gitgutter_sign_removed = '●'
+let g:gitgutter_sign_removed_first_line = '○'
+let g:gitgutter_sign_modified_removed = '○'
+
 "}}}
 
-" Unite {{{
-map <leader>b :Unite -no-split -buffer-name=buffer buffer<cr>
+" Denite {{{
+map <leader>b :Denite -buffer-name=buffer buffer<cr>
+map <leader>l :Denite -buffer-name=line -auto-highlight line<cr>
+map <leader>c :Denite -buffer-name=command command<cr>
+map <leader>h :Denite -buffer-name=history command_history<cr>
+map <leader>p :Denite -buffer-name=file file<cr>
+map <leader>r :Denite -buffer-name=file_rec file_rec<cr>
 
+map <C-p> :Denite -buffer-name=file file<cr>
+
+call denite#custom#map(
+            \ 'insert',
+            \ '<Down>',
+            \ '<denite:move_to_next_line>',
+            \ 'noremap'
+            \)
+call denite#custom#map(
+            \ 'insert',
+            \ '<Up>',
+            \ '<denite:move_to_previous_line>',
+            \ 'noremap'
+            \)
+" Minor nitpick:
+" cursorline overides the ctermfg for deniteMatchedChar, makes it look a bit ugly.
+highlight deniteMatchedChar cterm=bold ctermbg=NONE ctermfg=141
 "}}}
 
 " vimfiler {{{
