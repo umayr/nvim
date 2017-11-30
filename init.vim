@@ -1,5 +1,5 @@
 " Initialise {{{
-call plug#begin('~/local/share/nvim/plugged')
+call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
@@ -10,6 +10,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/local/share/nvim/plugged/gocode/vim/symlink.sh' }
+Plug 'rhysd/committia.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'sebastianmarkow/deoplete-rust'
 Plug 'shougo/vimfiler.vim'
@@ -26,6 +27,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
 Plug 'yegappan/mru'
 Plug 'zchee/deoplete-go', { 'do': 'make'}
+Plug 'zchee/deoplete-clang'
 " Enable the two lines below to enable python autocomplete with deoplete
 " Plug 'davidhalter/jedi-vim'
 " Plug 'zchee/deoplete-jedi'
@@ -535,7 +537,7 @@ au FileType go nmap <leader>gd :GoDoc<cr>
 au FileType go nmap <leader>gt :GoTest<cr>
 au FileType go nmap <leader>rr :GoRename<cr>
 au FileType go nmap <leader>gk :GoKeyify<cr>
-
+au FileType go nmap <leader>d :GoDeclsDir<cr>
 au FileType go nmap g] :GoDef<cr>
 au FileType go nmap g[ :GoDefPop<cr>
 
@@ -653,6 +655,9 @@ let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const
 let g:deoplete#sources#rust#racer_binary = $HOME.'/.cargo/bin/racer'
 let g:deoplete#sources#rust#rust_source_path = $RUST_SRC_PATH
 let g:deoplete#sources#rust#disable_keymap=1
+
+let g:deoplete#sources#clang#libclang_path = '/usr/local/Cellar/llvm/4.0.1/lib/libclang.dylib'
+let g:deoplete#sources#clang#clang_header = '/usr/local/Cellar/llvm/4.0.1/lib/clang/'
 
 au FileType rust nmap <leader>gd <Plug>DeopleteRustGoToDefinitionDefault
 au FileType rust nmap <leader>d <Plug>DeopleteRustShowDocumentation
