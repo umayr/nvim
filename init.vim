@@ -3,6 +3,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'airblade/vim-gitgutter'
 Plug 'altercation/vim-colors-solarized'
+Plug 'dag/vim-fish'
 Plug 'dracula/vim'
 Plug 'ervandew/supertab'
 Plug 'fatih/vim-go'
@@ -10,14 +11,13 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/local/share/nvim/plugged/gocode/vim/symlink.sh' }
+Plug 'peterhoeg/vim-qml'
 Plug 'rhysd/committia.vim'
-Plug 'rust-lang/rust.vim'
 Plug 'sebastianmarkow/deoplete-rust'
 Plug 'shougo/vimfiler.vim'
 Plug 'shougo/unite.vim'
 Plug 'shougo/denite.nvim'
 Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'timonv/vim-cargo'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -28,9 +28,14 @@ Plug 'w0rp/ale'
 Plug 'yegappan/mru'
 Plug 'zchee/deoplete-go', { 'do': 'make'}
 Plug 'zchee/deoplete-clang'
+
 " Enable the two lines below to enable python autocomplete with deoplete
 " Plug 'davidhalter/jedi-vim'
 " Plug 'zchee/deoplete-jedi'
+
+" Enable below lines for Rust and Cargo
+" Plug 'rust-lang/rust.vim'
+" Plug 'timonv/vim-cargo'
 call plug#end()
 "}}}
 
@@ -271,10 +276,10 @@ set ffs=unix,dos,mac
 " set noswapfile
 
 " Centralize backups, swapfiles and undo history
-set backupdir=~/.vim/backups
-set directory=~/.vim/swaps
+set backupdir=~/.config/nvim/backups
+set directory=~/.config/nvim/swaps
 if exists("&undodir")
-    set undodir=~/.vim/undo
+    set undodir=~/.config/nvim/undo
 endif
 
 "}}}
@@ -532,7 +537,7 @@ au FileType go set softtabstop=4
 au FileType go set tabstop=4
 
 au FileType go nmap <leader>gr :GoRun<cr>
-au FileType go nmap <leader>gt :GoDeclsDir<cr>
+au FileType go nmap <leader>gl :GoDeclsDir<cr>
 au FileType go nmap <leader>gd :GoDoc<cr>
 au FileType go nmap <leader>gt :GoTest<cr>
 au FileType go nmap <leader>rr :GoRename<cr>
@@ -656,8 +661,8 @@ let g:deoplete#sources#rust#racer_binary = $HOME.'/.cargo/bin/racer'
 let g:deoplete#sources#rust#rust_source_path = $RUST_SRC_PATH
 let g:deoplete#sources#rust#disable_keymap=1
 
-let g:deoplete#sources#clang#libclang_path = '/usr/local/Cellar/llvm/4.0.1/lib/libclang.dylib'
-let g:deoplete#sources#clang#clang_header = '/usr/local/Cellar/llvm/4.0.1/lib/clang/'
+let g:deoplete#sources#clang#libclang_path = '/usr/local/Cellar/llvm/5.0.0/lib/libclang.dylib'
+let g:deoplete#sources#clang#clang_header = '/usr/local/Cellar/llvm/5.0.0/lib/clang/'
 
 au FileType rust nmap <leader>gd <Plug>DeopleteRustGoToDefinitionDefault
 au FileType rust nmap <leader>d <Plug>DeopleteRustShowDocumentation
