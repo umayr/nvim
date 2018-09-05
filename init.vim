@@ -11,6 +11,7 @@ Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-unimpaired'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 Plug 'editorconfig/editorconfig-vim'
+Plug 'zchee/deoplete-jedi'
 
 call plug#end()
 
