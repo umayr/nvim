@@ -4,6 +4,11 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'itchyny/lightline.vim'
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'ryanoasis/vim-devicons'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'kristijanhusak/defx-icons'
+Plug 'kristijanhusak/defx-git'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'w0rp/ale'
@@ -12,6 +17,9 @@ Plug 'tpope/vim-unimpaired'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'zchee/deoplete-jedi'
+Plug 'dag/vim-fish'
+Plug 'pangloss/vim-javascript'
+Plug 'jiangmiao/auto-pairs'
 
 call plug#end()
 
@@ -86,8 +94,11 @@ color dracula
 
 set noshowmode
 
+let g:ale_sign_error = ''
+let g:ale_sign_warning = ''
+
 let g:lightline = {
-            \	'colorscheme': 'Dracula'
+            \	'colorscheme': 'dracula'
             \}
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#ternjs#filetypes = [
@@ -95,3 +106,99 @@ let g:deoplete#sources#ternjs#filetypes = [
                 \ 'javascript.jsx',
                 \ ]
 
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_ngdoc = 1
+let g:javascript_plugin_flow = 1
+
+augroup javascript_folding
+    au!
+    au FileType javascript setlocal foldmethod=syntax
+    au FileType javascript setlocal nofoldenable
+augroup END
+
+
+autocmd FileType vim nnoremap <leader>s :source %<cr>
+
+nnoremap <leader>e :Defx -columns=git:icons:filename:type -split=vertical -winwidth=40 -direction=topleft -toggle<cr>
+nnoremap <leader>E :Defx -columns=git:icons:filename:type -split=horizontal -winheight=40 -toggle<cr>
+nnoremap <leader>d :Defx -columns=git:icons:filename:type<cr>
+nnoremap <leader>dt :Defx -columns=git:icons:filename:type -split=tab<cr>
+
+call defx#custom#column('filename', {
+	      \ 'directory_icon': '▸',
+	      \ 'opened_icon': '▾',
+	      \ 'root_icon': ' ',
+	      \ 'min_width': 40,
+	      \ 'max_width': 40,
+	      \ })
+
+	call defx#custom#column('mark', {
+	      \ 'readonly_icon': '✗',
+	      \ 'selected_icon': '✓',
+	      \ })
+
+autocmd FileType defx call s:defx_my_settings()
+	function! s:defx_my_settings() abort
+	  " Define mappings
+	  nnoremap <silent><buffer><expr> <CR>
+	  \ defx#do_action('open')
+	  nnoremap <silent><buffer><expr> c
+	  \ defx#do_action('copy')
+	  nnoremap <silent><buffer><expr> m
+	  \ defx#do_action('move')
+	  nnoremap <silent><buffer><expr> p
+	  \ defx#do_action('paste')
+	  nnoremap <silent><buffer><expr> l
+	  \ defx#do_action('open')
+	  nnoremap <silent><buffer><expr> E
+	  \ defx#do_action('open', 'vsplit')
+	  nnoremap <silent><buffer><expr> P
+	  \ defx#do_action('open', 'pedit')
+	  nnoremap <silent><buffer><expr> o
+	  \ defx#do_action('open_or_close_tree')
+	  nnoremap <silent><buffer><expr> K
+	  \ defx#do_action('new_directory')
+	  nnoremap <silent><buffer><expr> N
+	  \ defx#do_action('new_file')
+	  nnoremap <silent><buffer><expr> M
+	  \ defx#do_action('new_multiple_files')
+	  nnoremap <silent><buffer><expr> C
+	  \ defx#do_action('toggle_columns',
+	  \                'mark:filename:type:size:time')
+	  nnoremap <silent><buffer><expr> S
+	  \ defx#do_action('toggle_sort', 'time')
+	  nnoremap <silent><buffer><expr> d
+	  \ defx#do_action('remove')
+	  nnoremap <silent><buffer><expr> r
+	  \ defx#do_action('rename')
+	  nnoremap <silent><buffer><expr> !
+	  \ defx#do_action('execute_command')
+	  nnoremap <silent><buffer><expr> x
+	  \ defx#do_action('execute_system')
+	  nnoremap <silent><buffer><expr> yy
+	  \ defx#do_action('yank_path')
+	  nnoremap <silent><buffer><expr> .
+	  \ defx#do_action('toggle_ignored_files')
+	  nnoremap <silent><buffer><expr> ;
+	  \ defx#do_action('repeat')
+	  nnoremap <silent><buffer><expr> h
+	  \ defx#do_action('cd', ['..'])
+	  nnoremap <silent><buffer><expr> ~
+	  \ defx#do_action('cd')
+	  nnoremap <silent><buffer><expr> q
+	  \ defx#do_action('quit')
+	  nnoremap <silent><buffer><expr> <Space>
+	  \ defx#do_action('toggle_select') . 'j'
+	  nnoremap <silent><buffer><expr> *
+	  \ defx#do_action('toggle_select_all')
+	  nnoremap <silent><buffer><expr> j
+	  \ line('.') == line('$') ? 'gg' : 'j'
+	  nnoremap <silent><buffer><expr> k
+	  \ line('.') == 1 ? 'G' : 'k'
+	  nnoremap <silent><buffer><expr> <C-l>
+	  \ defx#do_action('redraw')
+	  nnoremap <silent><buffer><expr> <C-g>
+	  \ defx#do_action('print')
+	  nnoremap <silent><buffer><expr> cd
+	  \ defx#do_action('change_vim_cwd')
+	endfunction
