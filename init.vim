@@ -71,6 +71,18 @@ map F <Plug>Sneak_F
 map t <Plug>Sneak_t
 map T <Plug>Sneak_T
 
+" Use Alt+[j|k] to move lines up or down
+" For this to work, Option key should be mapped to Esc+
+" source: https://stackoverflow.com/a/15399297/2086073
+nnoremap ª :m .+1<CR>==
+nnoremap º :m .-2<CR>==
+
+inoremap ª <Esc>:m .+1<CR>==gi
+inoremap º <Esc>:m .-2<CR>==gi
+
+vnoremap ª :m '>+1<CR>gv=gv
+vnoremap º :m '<-2<CR>gv=gv
+
 hi! link Sneak Search
 
 autocmd! FileType fzf
