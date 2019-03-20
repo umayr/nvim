@@ -1,25 +1,24 @@
 call plug#begin('~/local/share/nvim/plugged')
 
-Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'itchyny/lightline.vim'
-
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'ryanoasis/vim-devicons'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'kristijanhusak/defx-icons'
-Plug 'kristijanhusak/defx-git'
 Plug '/usr/local/opt/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'w0rp/ale'
-Plug 'justinmk/vim-sneak'
-Plug 'tpope/vim-unimpaired'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-Plug 'editorconfig/editorconfig-vim'
-Plug 'zchee/deoplete-jedi'
 Plug 'dag/vim-fish'
-Plug 'pangloss/vim-javascript'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'editorconfig/editorconfig-vim'
+Plug 'itchyny/lightline.vim'
 Plug 'jiangmiao/auto-pairs'
+Plug 'junegunn/fzf.vim'
+Plug 'justinmk/vim-sneak'
+Plug 'kristijanhusak/defx-git'
+Plug 'kristijanhusak/defx-icons'
+Plug 'pangloss/vim-javascript'
+Plug 'ryanoasis/vim-devicons'
+Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'tpope/vim-unimpaired'
+Plug 'w0rp/ale'
+Plug 'zchee/deoplete-jedi'
 
 call plug#end()
 
