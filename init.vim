@@ -7,13 +7,17 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'fatih/vim-go'
 Plug 'itchyny/lightline.vim'
-Plug 'jiangmiao/auto-pairs'
+Plug 'tmsvg/pear-tree'
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-sneak'
 Plug 'kristijanhusak/defx-git'
 Plug 'kristijanhusak/defx-icons'
+Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
+Plug 'prettier/vim-prettier', { 'for': [ 'typescript', 'javascript', 'html', 'css', 'scss', 'less' ] }
 Plug 'ryanoasis/vim-devicons'
+Plug 'rust-lang/rust.vim'
+Plug 'sebastianmarkow/deoplete-rust'
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -122,6 +126,12 @@ let g:deoplete#sources#ternjs#filetypes = [
                 \ 'jsx',
                 \ 'javascript.jsx',
                 \ ]
+let g:deoplete#sources#ternjs#docs = 0
+let g:deoplete#sources#ternjs#types = 1
+
+" These paths need to be absolute otherwise this wouldn't work
+let g:deoplete#sources#rust#racer_binary = '/Users/umayrshahid/.cargo/bin/racer'
+let g:deoplete#sources#rust#rust_source_path = '/Users/umayrshahid/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src'
 
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
