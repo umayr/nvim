@@ -5,6 +5,7 @@ Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 Plug 'dag/vim-fish'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'editorconfig/editorconfig-vim'
+Plug 'fatih/vim-go'
 Plug 'itchyny/lightline.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf.vim'
@@ -18,6 +19,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'tpope/vim-unimpaired'
 Plug 'w0rp/ale'
+Plug 'zchee/deoplete-go', { 'do': 'make'}
 Plug 'zchee/deoplete-jedi'
 
 call plug#end()
@@ -40,13 +42,17 @@ set tw=400
 set ai
 set si
 set wrap
+set completeopt-=preview
 
 let mapleader = ','
 
 nmap <leader>w :w!<cr>
 
-nnoremap <Tab> :tabnext<cr>
-nnoremap <S-Tab> :tabprev<cr>
+" this is experimental bindings
+" remove if it doesn't work as it should
+" it maps Alt-[9/0] to switch through buffers
+nnoremap º :bnext <cr>
+nnoremap ª :bprevious <cr>
 
 map <Space> /
 map <S-Space> ?
@@ -73,14 +79,14 @@ map T <Plug>Sneak_T
 " Use Alt+[j|k] to move lines up or down
 " For this to work, Option key should be mapped to Esc+
 " source: https://stackoverflow.com/a/15399297/2086073
-nnoremap ª :m .+1<CR>==
-nnoremap º :m .-2<CR>==
+nnoremap ∆ :m .+1<CR>==
+nnoremap ˚ :m .-2<CR>==
 
-inoremap ª <Esc>:m .+1<CR>==gi
-inoremap º <Esc>:m .-2<CR>==gi
+inoremap ∆ <Esc>:m .+1<CR>==gi
+inoremap ˚ <Esc>:m .-2<CR>==gi
 
-vnoremap ª :m '>+1<CR>gv=gv
-vnoremap º :m '<-2<CR>gv=gv
+vnoremap ∆ :m '>+1<CR>gv=gv
+vnoremap ˚ :m '<-2<CR>gv=gv
 
 hi! link Sneak Search
 
@@ -127,8 +133,33 @@ augroup javascript_folding
     au FileType javascript setlocal nofoldenable
 augroup END
 
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_structs = 1
+
+let g:go_auto_sameids = 1
+let g:go_fmt_command = "goimports"
+let g:go_auto_type_info = 1
+
+au FileType go set noexpandtab
+au FileType go set shiftwidth=4
+au FileType go set softtabstop=4
+au FileType go set tabstop=4
+
+au FileType go nmap <leader>gr :GoRun<cr>
+au FileType go nmap <leader>gt :GoDeclsDir<cr>
+
+au FileType go nmap <F12> <Plug>(go-def)
+
 
 autocmd FileType vim nnoremap <leader>s :source %<cr>
+
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
 
 nnoremap <leader>e :Defx -columns=git:icons:filename:type -split=vertical -winwidth=40 -direction=topleft -toggle<cr>
 nnoremap <leader>E :Defx -columns=git:icons:filename:type -split=horizontal -winheight=40 -toggle<cr>
