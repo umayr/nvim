@@ -1,30 +1,21 @@
-call plug#begin('~/local/share/nvim/plugged')
+call plug#begin('~/.local/share/nvim/plugged')
 
 Plug '/usr/local/opt/fzf'
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 Plug 'dag/vim-fish'
 Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'dense-analysis/ale'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'fatih/vim-go'
 Plug 'itchyny/lightline.vim'
 Plug 'tmsvg/pear-tree'
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-sneak'
+Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'kristijanhusak/defx-git'
-Plug 'kristijanhusak/defx-icons'
 Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
 Plug 'prettier/vim-prettier', { 'for': [ 'typescript', 'javascript', 'html', 'css', 'scss', 'less' ] }
-Plug 'ryanoasis/vim-devicons'
-Plug 'rust-lang/rust.vim'
-Plug 'sebastianmarkow/deoplete-rust'
-Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'tpope/vim-unimpaired'
-Plug 'w0rp/ale'
-Plug 'zchee/deoplete-go', { 'do': 'make'}
-Plug 'zchee/deoplete-jedi'
 
 call plug#end()
 
@@ -115,23 +106,12 @@ color dracula
 
 set noshowmode
 
-let g:ale_sign_error = ''
-let g:ale_sign_warning = ''
+let g:ale_sign_error = '🚫'
+let g:ale_sign_warning = '⚠️'
 
 let g:lightline = {
             \	'colorscheme': 'dracula'
             \}
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#ternjs#filetypes = [
-                \ 'jsx',
-                \ 'javascript.jsx',
-                \ ]
-let g:deoplete#sources#ternjs#docs = 0
-let g:deoplete#sources#ternjs#types = 1
-
-" These paths need to be absolute otherwise this wouldn't work
-let g:deoplete#sources#rust#racer_binary = '/Users/umayrshahid/.cargo/bin/racer'
-let g:deoplete#sources#rust#rust_source_path = '/Users/umayrshahid/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src'
 
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
@@ -143,38 +123,14 @@ augroup javascript_folding
     au FileType javascript setlocal nofoldenable
 augroup END
 
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_structs = 1
-
-let g:go_auto_sameids = 1
-let g:go_fmt_command = "goimports"
-let g:go_auto_type_info = 1
-
-au FileType go set noexpandtab
-au FileType go set shiftwidth=4
-au FileType go set softtabstop=4
-au FileType go set tabstop=4
-
-au FileType go nmap <leader>gr :GoRun<cr>
-au FileType go nmap <leader>gt :GoDeclsDir<cr>
-
-au FileType go nmap <F12> <Plug>(go-def)
-
-
 autocmd FileType vim nnoremap <leader>s :source %<cr>
 
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
 
-nnoremap <leader>e :Defx -columns=git:icons:filename:type -split=vertical -winwidth=40 -direction=topleft -toggle<cr>
-nnoremap <leader>E :Defx -columns=git:icons:filename:type -split=horizontal -winheight=40 -toggle<cr>
-nnoremap <leader>d :Defx -columns=git:icons:filename:type<cr>
-nnoremap <leader>dt :Defx -columns=git:icons:filename:type -split=tab<cr>
+nnoremap <leader>e :Defx -columns=git:filename:type -split=vertical -winwidth=40 -direction=topleft -toggle<cr>
+nnoremap <leader>E :Defx -columns=git:filename:type -split=horizontal -winheight=40 -toggle<cr>
+nnoremap <leader>d :Defx -columns=git:filename:type<cr>
+nnoremap <leader>dt :Defx -columns=git:filename:type -split=tab<cr>
 
 call defx#custom#column('filename', {
 	      \ 'directory_icon': '▸',
