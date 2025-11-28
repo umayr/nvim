@@ -71,6 +71,7 @@ require('lazy').setup({
 
   -- Git related plugins
   'tpope/vim-fugitive',
+  -- This is for GitHub and requires `vim-fugitive`
   'tpope/vim-rhubarb',
 
   -- Detect tabstop and shiftwidth automatically
@@ -189,15 +190,21 @@ require('lazy').setup({
     },
   },
 
+  --{
+  --  -- Theme inspired by Atom
+  --  'navarasu/onedark.nvim',
+  --  priority = 1000,
+  --  config = function()
+  --    vim.cmd.colorscheme 'onedark'
+  --  end,
+  --},
+
   {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
-    priority = 1000,
+    'Mofiqul/dracula.nvim',
     config = function()
-      vim.cmd.colorscheme 'onedark'
+      vim.cmd.colorscheme 'dracula'
     end,
   },
-
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -205,7 +212,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
+        theme = 'dracula-nvim',
         component_separators = '|',
         section_separators = '',
       },
@@ -310,6 +317,8 @@ vim.o.completeopt = 'menuone,noselect'
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
+vim.opt.showmode = false
+
 -- [[ Basic Keymaps ]]
 
 -- Keymaps for better default experience
@@ -319,6 +328,16 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
+-- Panel Navigation
+vim.keymap.set({ 'n', 'i'}, '<C-j>', '<C-w>j', { silent = true })
+vim.keymap.set({ 'n', 'i'}, '<C-k>', '<C-w>k', { silent = true })
+vim.keymap.set({ 'n', 'i'}, '<C-h>', '<C-w>h', { silent = true })
+vim.keymap.set({ 'n', 'i'}, '<C-l>', '<C-w>l', { silent = true })
+
+-- Personal preference
+vim.o.relativenumber = true
+vim.o.tabstop = 4
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
@@ -515,7 +534,7 @@ local on_attach = function(_, bufnr)
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  nmap('<C-.>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
